@@ -8,7 +8,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 
 import { Media } from './collections/assets';
-import { Colors } from './collections/taxonomies';
+import { Categories, Colors, Sizes } from './collections/taxonomies';
+import { Products } from '@/collections/products';
 import { Users } from './collections/Users';
 
 const filename = fileURLToPath(import.meta.url);
@@ -21,7 +22,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Media, Colors, Users],
+    collections: [Media, Categories, Colors, Sizes, Products, Users],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',
     typescript: {
