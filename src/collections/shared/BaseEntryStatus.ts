@@ -17,7 +17,7 @@ export const BaseEntryStatus = ({ typeHandle }: BaseEntryStatusProps): Field => 
                 type: 'text',
                 name: 'typeHandle',
                 label: 'Type',
-                defaultValue: 'sectionTaxonomiesColors',
+                defaultValue: typeHandle,
                 admin: {
                     readOnly: true,
                     hidden: !typeHandle,
@@ -30,7 +30,7 @@ export const BaseEntryStatus = ({ typeHandle }: BaseEntryStatusProps): Field => 
                     beforeChange: [
                         ({ siblingData, value }) => {
                             let slug = undefined;
-                            if (!siblingData?.createdAt && siblingData?.title) slug = siblingData.title;
+                            if (!siblingData?.createdAt && siblingData?.title && !value) slug = siblingData.title;
                             if (!slug && value) slug = value;
 
                             if (slug) return slugify(slug, { lower: true });

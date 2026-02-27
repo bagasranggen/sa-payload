@@ -1,82 +1,69 @@
-import { Tab } from 'payload';
+import { Field, FieldHookArgs, Tab, TypeWithID } from 'payload';
 
-import { ArrayStringTypes } from '@/libs/types';
-import { joinArrayString } from '@/libs/utils';
+import { getUrlPath } from '@/libs/utils';
 
-import slugify from 'slugify';
+export type AdditionalPathArg = Pick<FieldHookArgs<TypeWithID, any, any>, 'siblingData' | 'req'>;
 
 export type BaseEntryGeneralProps = {
     enabled?: boolean;
+    additionalPath?: (props: AdditionalPathArg) => Promise<string[]>;
 };
 
-export const BaseEntryGeneral = ({ enabled = true }: BaseEntryGeneralProps): Tab => {
+export const BaseEntryGeneral = ({ enabled = true, additionalPath }: BaseEntryGeneralProps): Tab => {
+    const fields: Field[] = [];
+
+    fields.push({
+        type: 'text',
+        name: 'title',
+        required: true,
+    });
+
+    if (enabled) {
+        fields.push({
+            type: 'row',
+            fields: [
+                {
+                    type: 'text',
+                    name: 'url',
+                    label: 'URL',
+                    admin: {
+                        readOnly: true,
+                        width: '50%',
+                    },
+                    hooks: {
+                        beforeChange: [
+                            async ({ siblingData, req }) => {
+                                const url = await getUrlPath({ siblingData, req, additionalPath, withBaseUri: true });
+
+                                if (url) return url;
+                            },
+                        ],
+                    },
+                },
+                {
+                    type: 'text',
+                    name: 'uri',
+                    label: 'URI',
+                    admin: {
+                        readOnly: true,
+                        width: '50%',
+                    },
+                    hooks: {
+                        beforeChange: [
+                            async ({ siblingData, req }) => {
+                                const url = await getUrlPath({ siblingData, req, additionalPath });
+
+                                if (url) return url;
+                            },
+                        ],
+                    },
+                },
+            ],
+        });
+    }
+
     return {
         label: 'General',
-        fields: [
-            {
-                type: 'text',
-                name: 'title',
-                required: true,
-            },
-            {
-                type: 'row',
-                admin: {
-                    hidden: !enabled,
-                },
-                fields: [
-                    {
-                        type: 'text',
-                        name: 'url',
-                        label: 'URL',
-                        admin: {
-                            readOnly: true,
-                            width: '50%',
-                        },
-                        hooks: {
-                            beforeChange: [
-                                ({ siblingData }) => {
-                                    let slug = undefined;
-                                    if (siblingData?.title) slug = siblingData.title;
-                                    if (siblingData?.slug) slug = siblingData.slug;
-                                    if (slug) slug = slugify(slug, { lower: true });
-
-                                    let url: ArrayStringTypes = [];
-                                    if (process.env.BASE_URI) url.push(process.env.BASE_URI);
-                                    if (slug) url.push(slug);
-                                    url = joinArrayString(url, '/');
-
-                                    if (url) return url;
-                                },
-                            ],
-                        },
-                    },
-                    {
-                        type: 'text',
-                        name: 'uri',
-                        label: 'URI',
-                        admin: {
-                            readOnly: true,
-                            width: '50%',
-                        },
-                        hooks: {
-                            beforeChange: [
-                                ({ siblingData }) => {
-                                    let slug = undefined;
-                                    if (siblingData?.title) slug = siblingData.title;
-                                    if (siblingData?.slug) slug = siblingData.slug;
-                                    if (slug) slug = slugify(slug, { lower: true });
-
-                                    let url: ArrayStringTypes = [];
-                                    if (slug) url.push(slug);
-                                    url = joinArrayString(url, '/');
-
-                                    if (url) return url;
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        ],
+        fields,
     };
 };
