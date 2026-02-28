@@ -1,14 +1,15 @@
 import { CollectionConfig } from 'payload';
 import { BaseEntry } from '@/collections/shared';
 
-export const Sizes: CollectionConfig = {
-    slug: 'sizes',
+export const Labels: CollectionConfig = {
+    slug: 'labels',
+
     admin: {
         group: 'Taxonomies',
         useAsTitle: 'title',
     },
     fields: BaseEntry({
-        typeHandle: 'sectionTaxonomiesSizes',
+        typeHandle: 'sectionTaxonomiesLabels',
         url: { enabled: false },
         tabs: [],
     }),
