@@ -8,9 +8,9 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 
 import { Media } from './collections/assets';
-import { Categories, Colors, Sizes } from './collections/taxonomies';
+import { Categories, Colors, Labels, Sizes, Tags } from './collections/taxonomies';
 import { Products } from '@/collections/products';
-import { Users } from './collections/Users';
+import { Tokens, Users } from './collections/users';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -22,7 +22,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Media, Categories, Colors, Sizes, Products, Users],
+    collections: [Media, Categories, Colors, Labels, Sizes, Tags, Products, Tokens, Users],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',
     typescript: {
@@ -41,12 +41,12 @@ export default buildConfig({
                     prefix: 'media',
                 },
             },
-            bucket: process.env.S3_BUCKET,
+            bucket: process.env.S3_BUCKET || '',
             config: {
                 forcePathStyle: true,
                 credentials: {
-                    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-                    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+                    accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+                    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
                 },
                 region: process.env.S3_REGION,
                 endpoint: process.env.S3_ENDPOINT,
