@@ -7,6 +7,35 @@
  */
 
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Summaries".
+ */
+export type Summaries =
+  | {
+      title?: string | null;
+      details?:
+        | {
+            label?: (number | null) | Label;
+            value?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+      id?: string | null;
+    }[]
+  | null;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Prices".
+ */
+export type Prices =
+  | {
+      price: number;
+      salePrice?: number | null;
+      days: number;
+      id?: string | null;
+    }[]
+  | null;
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -63,15 +92,19 @@ export type SupportedTimezones =
 
 export interface Config {
   auth: {
+    tokens: TokenAuthOperations;
     users: UserAuthOperations;
   };
   blocks: {};
   collections: {
     media: Media;
     categories: Category;
-    color: Color;
+    colors: Color;
+    labels: Label;
     sizes: Size;
+    tags: Tag;
     products: Product;
+    tokens: Token;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -82,9 +115,12 @@ export interface Config {
   collectionsSelect: {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    color: ColorSelect<false> | ColorSelect<true>;
+    colors: ColorsSelect<false> | ColorsSelect<true>;
+    labels: LabelsSelect<false> | LabelsSelect<true>;
     sizes: SizesSelect<false> | SizesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    tokens: TokensSelect<false> | TokensSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -98,10 +134,28 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: null;
-  user: User;
+  user: Token | User;
   jobs: {
     tasks: unknown;
     workflows: unknown;
+  };
+}
+export interface TokenAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
   };
 }
 export interface UserAuthOperations {
@@ -148,26 +202,37 @@ export interface Media {
  */
 export interface Category {
   id: number;
-  typeHandle?: string | null;
-  slug?: string | null;
-  entryStatus?: ('disabled' | 'live') | null;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
   title: string;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "color".
+ * via the `definition` "colors".
  */
 export interface Color {
   id: number;
-  typeHandle?: string | null;
-  slug?: string | null;
-  entryStatus?: ('disabled' | 'live') | null;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
   title: string;
-  url?: string | null;
-  uri?: string | null;
   color?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels".
+ */
+export interface Label {
+  id: number;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
+  title: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -177,9 +242,22 @@ export interface Color {
  */
 export interface Size {
   id: number;
-  typeHandle?: string | null;
-  slug?: string | null;
-  entryStatus?: ('disabled' | 'live') | null;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
   title: string;
   updatedAt: string;
   createdAt: string;
@@ -190,16 +268,41 @@ export interface Size {
  */
 export interface Product {
   id: number;
-  typeHandle?: string | null;
-  slug?: string | null;
-  entryStatus?: ('disabled' | 'live') | null;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
   title: string;
   url?: string | null;
   uri?: string | null;
+  summaries?: Summaries;
+  bookedDates?:
+    | {
+        from?: string | null;
+        to?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  prices?: Prices;
   category?: (number | null) | Category;
+  colors?: (number | Color)[] | null;
   sizes?: (number | Size)[] | null;
+  tag?: (number | null) | Tag;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tokens".
+ */
+export interface Token {
+  id: number;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  collection: 'tokens';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -259,26 +362,43 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
-        relationTo: 'color';
+        relationTo: 'colors';
         value: number | Color;
+      } | null)
+    | ({
+        relationTo: 'labels';
+        value: number | Label;
       } | null)
     | ({
         relationTo: 'sizes';
         value: number | Size;
       } | null)
     | ({
+        relationTo: 'tags';
+        value: number | Tag;
+      } | null)
+    | ({
         relationTo: 'products';
         value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'tokens';
+        value: number | Token;
       } | null)
     | ({
         relationTo: 'users';
         value: number | User;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'tokens';
+        value: number | Token;
+      }
+    | {
+        relationTo: 'users';
+        value: number | User;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -288,10 +408,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'tokens';
+        value: number | Token;
+      }
+    | {
+        relationTo: 'users';
+        value: number | User;
+      };
   key?: string | null;
   value?:
     | {
@@ -349,16 +474,26 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "color_select".
+ * via the `definition` "colors_select".
  */
-export interface ColorSelect<T extends boolean = true> {
+export interface ColorsSelect<T extends boolean = true> {
   typeHandle?: T;
   slug?: T;
   entryStatus?: T;
   title?: T;
-  url?: T;
-  uri?: T;
   color?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels_select".
+ */
+export interface LabelsSelect<T extends boolean = true> {
+  typeHandle?: T;
+  slug?: T;
+  entryStatus?: T;
+  title?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -367,6 +502,18 @@ export interface ColorSelect<T extends boolean = true> {
  * via the `definition` "sizes_select".
  */
 export interface SizesSelect<T extends boolean = true> {
+  typeHandle?: T;
+  slug?: T;
+  entryStatus?: T;
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
   typeHandle?: T;
   slug?: T;
   entryStatus?: T;
@@ -385,10 +532,58 @@ export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   url?: T;
   uri?: T;
+  summaries?: T | SummariesSelect<T>;
+  bookedDates?:
+    | T
+    | {
+        from?: T;
+        to?: T;
+        id?: T;
+      };
+  prices?: T | PricesSelect<T>;
   category?: T;
+  colors?: T;
   sizes?: T;
+  tag?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Summaries_select".
+ */
+export interface SummariesSelect<T extends boolean = true> {
+  title?: T;
+  details?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Prices_select".
+ */
+export interface PricesSelect<T extends boolean = true> {
+  price?: T;
+  salePrice?: T;
+  days?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tokens_select".
+ */
+export interface TokensSelect<T extends boolean = true> {
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
