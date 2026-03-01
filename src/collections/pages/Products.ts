@@ -4,7 +4,7 @@ import { BaseEntry } from '@/collections/shared';
 export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
-        group: 'Products',
+        group: 'Pages',
         useAsTitle: 'title',
     },
     fields: BaseEntry({

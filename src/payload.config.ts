@@ -9,7 +9,7 @@ import { s3Storage } from '@payloadcms/storage-s3';
 
 import { Media } from './collections/assets';
 import { Categories, Colors, Labels, Sizes, Tags } from './collections/taxonomies';
-import { Products } from '@/collections/products';
+import { Products, ProductsCategories } from '@/collections/pages';
 import { Tokens, Users } from './collections/users';
 
 const filename = fileURLToPath(import.meta.url);
@@ -22,7 +22,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Media, Categories, Colors, Labels, Sizes, Tags, Products, Tokens, Users],
+    collections: [Media, Categories, Colors, Labels, Sizes, Tags, Products, ProductsCategories, Tokens, Users],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',
     typescript: {
