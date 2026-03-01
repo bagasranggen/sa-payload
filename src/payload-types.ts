@@ -104,6 +104,7 @@ export interface Config {
     sizes: Size;
     tags: Tag;
     products: Product;
+    productsCategories: ProductsCategory;
     tokens: Token;
     users: User;
     'payload-kv': PayloadKv;
@@ -120,6 +121,7 @@ export interface Config {
     sizes: SizesSelect<false> | SizesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    productsCategories: ProductsCategoriesSelect<false> | ProductsCategoriesSelect<true>;
     tokens: TokensSelect<false> | TokensSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -292,6 +294,22 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "productsCategories".
+ */
+export interface ProductsCategory {
+  id: number;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
+  title: string;
+  url?: string | null;
+  uri?: string | null;
+  category: number | Category;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tokens".
  */
 export interface Token {
@@ -380,6 +398,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'products';
         value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'productsCategories';
+        value: number | ProductsCategory;
       } | null)
     | ({
         relationTo: 'tokens';
@@ -572,6 +594,21 @@ export interface PricesSelect<T extends boolean = true> {
   salePrice?: T;
   days?: T;
   id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "productsCategories_select".
+ */
+export interface ProductsCategoriesSelect<T extends boolean = true> {
+  typeHandle?: T;
+  slug?: T;
+  entryStatus?: T;
+  title?: T;
+  url?: T;
+  uri?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
