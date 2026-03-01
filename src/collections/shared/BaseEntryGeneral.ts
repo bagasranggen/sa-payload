@@ -1,15 +1,12 @@
-import { Field, FieldHookArgs, Tab, TypeWithID } from 'payload';
+import { Field, Tab } from 'payload';
 
-import { getUrlPath } from '@/libs/utils';
-
-export type AdditionalPathArg = Pick<FieldHookArgs<TypeWithID, any, any>, 'siblingData' | 'req'>;
+import { getUrlPath, GetUrlPathProps } from '@/libs/utils';
 
 export type BaseEntryGeneralProps = {
     enabled?: boolean;
-    additionalPath?: (props: AdditionalPathArg) => Promise<string[]>;
-};
+} & Pick<GetUrlPathProps, 'additionalPath' | 'withSlug'>;
 
-export const BaseEntryGeneral = ({ enabled = true, additionalPath }: BaseEntryGeneralProps): Tab => {
+export const BaseEntryGeneral = ({ enabled = true, additionalPath, withSlug }: BaseEntryGeneralProps): Tab => {
     const fields: Field[] = [];
 
     fields.push({
@@ -33,7 +30,13 @@ export const BaseEntryGeneral = ({ enabled = true, additionalPath }: BaseEntryGe
                     hooks: {
                         beforeChange: [
                             async ({ siblingData, req }) => {
-                                const url = await getUrlPath({ siblingData, req, additionalPath, withBaseUri: true });
+                                const url = await getUrlPath({
+                                    siblingData,
+                                    req,
+                                    additionalPath,
+                                    withBaseUri: true,
+                                    withSlug,
+                                });
 
                                 if (url) return url;
                             },
@@ -51,7 +54,7 @@ export const BaseEntryGeneral = ({ enabled = true, additionalPath }: BaseEntryGe
                     hooks: {
                         beforeChange: [
                             async ({ siblingData, req }) => {
-                                const url = await getUrlPath({ siblingData, req, additionalPath });
+                                const url = await getUrlPath({ siblingData, req, additionalPath, withSlug });
 
                                 if (url) return url;
                             },

@@ -3,18 +3,25 @@ import slugify from 'slugify';
 import { ArrayStringTypes } from '@/libs/types';
 import { joinArrayString } from './joinArrayString';
 
-import { AdditionalPathArg, BaseEntryGeneralProps } from '@/collections/shared';
+import { FieldHookArgs, TypeWithID } from 'payload';
 
-export type GetUrlPatProps = {
+export type AdditionalPathArg = Pick<FieldHookArgs<TypeWithID, any, any>, 'siblingData' | 'req'>;
+
+export type GetUrlPathProps = {
     withBaseUri?: boolean;
-} & (AdditionalPathArg & Pick<BaseEntryGeneralProps, 'additionalPath'>);
+    withSlug?: boolean;
+    additionalPath?: (props: AdditionalPathArg) => Promise<string[]>;
+} & AdditionalPathArg;
+
+const BASE_URI = process.env.BASE_URI;
 
 export const getUrlPath = async ({
     siblingData,
     req,
     additionalPath,
     withBaseUri = false,
-}: GetUrlPatProps): Promise<string | undefined> => {
+    withSlug = true,
+}: GetUrlPathProps): Promise<string | undefined> => {
     let data = undefined;
 
     let path = undefined;
@@ -26,9 +33,9 @@ export const getUrlPath = async ({
     if (slug) slug = slugify(slug, { lower: true });
 
     let url: ArrayStringTypes = [];
-    if (process.env.BASE_URI && withBaseUri) url.push(process.env.BASE_URI);
+    if (BASE_URI && withBaseUri) url.push(BASE_URI);
     if (path) url.push(...path);
-    if (slug) url.push(slug);
+    if (withSlug && slug) url.push(slug);
     url = joinArrayString(url, '/');
 
     if (url) data = url;
