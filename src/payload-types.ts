@@ -103,8 +103,8 @@ export interface Config {
     labels: Label;
     sizes: Size;
     tags: Tag;
-    products: Product;
     productsCategories: ProductsCategory;
+    products: Product;
     tokens: Token;
     users: User;
     'payload-kv': PayloadKv;
@@ -120,8 +120,8 @@ export interface Config {
     labels: LabelsSelect<false> | LabelsSelect<true>;
     sizes: SizesSelect<false> | SizesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
-    products: ProductsSelect<false> | ProductsSelect<true>;
     productsCategories: ProductsCategoriesSelect<false> | ProductsCategoriesSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     tokens: TokensSelect<false> | TokensSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -133,8 +133,14 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    homepage: Homepage;
+    navigation: Navigation;
+  };
+  globalsSelect: {
+    homepage: HomepageSelect<false> | HomepageSelect<true>;
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
+  };
   locale: null;
   user: Token | User;
   jobs: {
@@ -266,6 +272,22 @@ export interface Tag {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "productsCategories".
+ */
+export interface ProductsCategory {
+  id: number;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
+  title: string;
+  url?: string | null;
+  uri?: string | null;
+  category: number | Category;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
 export interface Product {
@@ -289,22 +311,6 @@ export interface Product {
   colors?: (number | Color)[] | null;
   sizes?: (number | Size)[] | null;
   tag?: (number | null) | Tag;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "productsCategories".
- */
-export interface ProductsCategory {
-  id: number;
-  typeHandle: string;
-  slug: string;
-  entryStatus: 'disabled' | 'live';
-  title: string;
-  url?: string | null;
-  uri?: string | null;
-  category: number | Category;
   updatedAt: string;
   createdAt: string;
 }
@@ -396,12 +402,12 @@ export interface PayloadLockedDocument {
         value: number | Tag;
       } | null)
     | ({
-        relationTo: 'products';
-        value: number | Product;
-      } | null)
-    | ({
         relationTo: 'productsCategories';
         value: number | ProductsCategory;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
       } | null)
     | ({
         relationTo: 'tokens';
@@ -545,6 +551,21 @@ export interface TagsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "productsCategories_select".
+ */
+export interface ProductsCategoriesSelect<T extends boolean = true> {
+  typeHandle?: T;
+  slug?: T;
+  entryStatus?: T;
+  title?: T;
+  url?: T;
+  uri?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
@@ -594,21 +615,6 @@ export interface PricesSelect<T extends boolean = true> {
   salePrice?: T;
   days?: T;
   id?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "productsCategories_select".
- */
-export interface ProductsCategoriesSelect<T extends boolean = true> {
-  typeHandle?: T;
-  slug?: T;
-  entryStatus?: T;
-  title?: T;
-  url?: T;
-  uri?: T;
-  category?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -683,6 +689,130 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage".
+ */
+export interface Homepage {
+  id: number;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
+  title: string;
+  url?: string | null;
+  uri?: string | null;
+  bannerTitle?: string | null;
+  bannerSubTitle?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  highlights?: (number | Product)[] | null;
+  collections?: (number | ProductsCategory)[] | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  navigations?:
+    | {
+        entryStatus: 'disabled' | 'live';
+        link?: Link;
+        children?:
+          | {
+              entryStatus: 'disabled' | 'live';
+              link?: Link;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Link".
+ */
+export interface Link {
+  source?: ('categories' | 'custom' | 'mail' | 'products' | 'pages' | 'whatsapp') | null;
+  product?: (number | null) | Product;
+  category?: (number | null) | ProductsCategory;
+  custom?: string | null;
+  mail?: string | null;
+  target?: boolean | null;
+  label?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage_select".
+ */
+export interface HomepageSelect<T extends boolean = true> {
+  typeHandle?: T;
+  slug?: T;
+  entryStatus?: T;
+  title?: T;
+  url?: T;
+  uri?: T;
+  bannerTitle?: T;
+  bannerSubTitle?: T;
+  highlights?: T;
+  collections?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  navigations?:
+    | T
+    | {
+        entryStatus?: T;
+        link?: T | LinkSelect<T>;
+        children?:
+          | T
+          | {
+              entryStatus?: T;
+              link?: T | LinkSelect<T>;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Link_select".
+ */
+export interface LinkSelect<T extends boolean = true> {
+  source?: T;
+  product?: T;
+  category?: T;
+  custom?: T;
+  mail?: T;
+  target?: T;
+  label?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
