@@ -9,7 +9,7 @@ import { s3Storage } from '@payloadcms/storage-s3';
 
 import { Media } from '@/collections/assets';
 import { Categories, Colors, Labels, Sizes, Tags } from '@/collections/taxonomies';
-import { Products, ProductsCategories } from '@/collections/pages';
+import { Products, ProductsCategories, StaticPages } from '@/collections/pages';
 import { Tokens, Users } from '@/collections/users';
 
 import { Homepage } from '@/globals/Homepage';
@@ -27,7 +27,19 @@ export default buildConfig({
         },
     },
     globals: [Homepage, Navigation],
-    collections: [Media, Categories, Colors, Labels, Sizes, Tags, ProductsCategories, Products, Tokens, Users],
+    collections: [
+        Media,
+        Categories,
+        Colors,
+        Labels,
+        Sizes,
+        Tags,
+        ProductsCategories,
+        Products,
+        StaticPages,
+        Tokens,
+        Users,
+    ],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',
     typescript: {
