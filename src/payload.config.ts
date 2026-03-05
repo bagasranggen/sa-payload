@@ -13,6 +13,7 @@ import { Products, ProductsCategories } from '@/collections/pages';
 import { Tokens, Users } from './collections/users';
 
 import { Homepage } from '@/globals/Homepage';
+import { Navigation } from '@/globals/Navigation';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -25,7 +26,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    collections: [Media, Categories, Colors, Labels, Sizes, Tags, Products, ProductsCategories, Tokens, Users],
+    globals: [Homepage, Navigation],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',
     typescript: {
