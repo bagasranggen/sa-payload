@@ -2,6 +2,8 @@ import { Field } from 'payload';
 
 import slugify from 'slugify';
 
+import { BaseEntryStatus } from '@/shared/BaseEntryStatus';
+
 export type BaseEntrySidebarProps = {
     typeHandle?: string;
 };
@@ -40,23 +42,7 @@ export const BaseEntrySidebar = ({ typeHandle }: BaseEntrySidebarProps): Field =
         },
     });
 
-    fields.push({
-        type: 'select',
-        name: 'entryStatus',
-        label: 'Status',
-        defaultValue: 'live',
-        required: true,
-        options: [
-            {
-                value: 'disabled',
-                label: 'Disabled',
-            },
-            {
-                value: 'live',
-                label: 'Live',
-            },
-        ],
-    });
+    fields.push(BaseEntryStatus());
 
     return {
         type: 'group',
@@ -64,50 +50,5 @@ export const BaseEntrySidebar = ({ typeHandle }: BaseEntrySidebarProps): Field =
             position: 'sidebar',
         },
         fields,
-        // fields: [
-        //     {
-        //         type: 'text',
-        //         name: 'typeHandle',
-        //         label: 'Type',
-        //         defaultValue: typeHandle,
-        //         admin: {
-        //             readOnly: true,
-        //             hidden: !typeHandle,
-        //         },
-        //     },
-        //     {
-        //         type: 'text',
-        //         name: 'slug',
-        //         unique: true,
-        //         required: true,
-        //         hooks: {
-        //             beforeChange: [
-        //                 ({ siblingData, value }) => {
-        //                     let slug = undefined;
-        //                     if (!siblingData?.createdAt && siblingData?.title && !value) slug = siblingData.title;
-        //                     if (!slug && value) slug = value;
-        //
-        //                     if (slug) return slugify(slug, { lower: true });
-        //                 },
-        //             ],
-        //         },
-        //     },
-        //     {
-        //         type: 'select',
-        //         name: 'entryStatus',
-        //         label: 'Status',
-        //         defaultValue: 'live',
-        //         options: [
-        //             {
-        //                 value: 'disabled',
-        //                 label: 'Disabled',
-        //             },
-        //             {
-        //                 value: 'live',
-        //                 label: 'Live',
-        //             },
-        //         ],
-        //     },
-        // ],
     };
 };

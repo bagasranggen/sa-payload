@@ -1,4 +1,5 @@
 import { GlobalConfig } from 'payload';
+
 import { BaseEntryStatus } from '@/shared/BaseEntryStatus';
 import { BaseLink } from '@/shared/BaseLink';
 

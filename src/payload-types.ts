@@ -105,6 +105,7 @@ export interface Config {
     tags: Tag;
     productsCategories: ProductsCategory;
     products: Product;
+    staticPages: StaticPage;
     tokens: Token;
     users: User;
     'payload-kv': PayloadKv;
@@ -122,6 +123,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     productsCategories: ProductsCategoriesSelect<false> | ProductsCategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    staticPages: StaticPagesSelect<false> | StaticPagesSelect<true>;
     tokens: TokensSelect<false> | TokensSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -316,6 +318,21 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staticPages".
+ */
+export interface StaticPage {
+  id: number;
+  typeHandle: string;
+  slug: string;
+  entryStatus: 'disabled' | 'live';
+  title: string;
+  url?: string | null;
+  uri?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tokens".
  */
 export interface Token {
@@ -408,6 +425,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'products';
         value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'staticPages';
+        value: number | StaticPage;
       } | null)
     | ({
         relationTo: 'tokens';
@@ -615,6 +636,20 @@ export interface PricesSelect<T extends boolean = true> {
   salePrice?: T;
   days?: T;
   id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staticPages_select".
+ */
+export interface StaticPagesSelect<T extends boolean = true> {
+  typeHandle?: T;
+  slug?: T;
+  entryStatus?: T;
+  title?: T;
+  url?: T;
+  uri?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
