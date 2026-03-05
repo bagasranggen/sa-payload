@@ -12,6 +12,8 @@ import { Categories, Colors, Labels, Sizes, Tags } from './collections/taxonomie
 import { Products, ProductsCategories } from '@/collections/pages';
 import { Tokens, Users } from './collections/users';
 
+import { Homepage } from '@/globals/Homepage';
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
