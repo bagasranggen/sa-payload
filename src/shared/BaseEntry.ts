@@ -1,12 +1,12 @@
 import { Field, Tab } from 'payload';
 
-import { BaseEntrySidebar, BaseEntrySidebarProps } from '@/shared/BaseEntrySidebar';
-import { BaseEntryGeneral, BaseEntryGeneralProps } from '@/shared/BaseEntryGeneral';
+import { BaseEntryStatus, BaseEntryStatusProps } from '@/collections/shared/BaseEntryStatus';
+import { BaseEntryGeneral, BaseEntryGeneralProps } from '@/collections/shared/BaseEntryGeneral';
 
 export type BaseEntryProps = {
     tabs?: Tab[];
     url?: BaseEntryGeneralProps;
-} & Pick<BaseEntrySidebarProps, 'typeHandle'>;
+} & Pick<BaseEntryStatusProps, 'typeHandle'>;
 
 export const BaseEntry = ({ typeHandle, tabs: tabsProps, url = {} }: BaseEntryProps): Field[] => {
     const tabs: Tab[] = [];
@@ -14,7 +14,7 @@ export const BaseEntry = ({ typeHandle, tabs: tabsProps, url = {} }: BaseEntryPr
     if (tabsProps && tabsProps.length > 0) tabs.push(...tabsProps);
 
     return [
-        BaseEntrySidebar({ typeHandle }),
+        BaseEntryStatus({ typeHandle }),
         {
             type: 'tabs',
             tabs,

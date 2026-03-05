@@ -2,7 +2,7 @@ import { CollectionConfig } from 'payload';
 
 import { colorPickerField } from '@innovixx/payload-color-picker-field';
 
-import { BaseEntry } from '@/collections/shared';
+import { BaseEntry } from '@/shared';
 
 export const Colors: CollectionConfig = {
     slug: 'colors',

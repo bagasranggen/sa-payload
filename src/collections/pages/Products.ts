@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload';
-import { BaseEntry } from '@/collections/shared';
+import { BaseEntry } from '@/shared';
 
 export const Products: CollectionConfig = {
     slug: 'products',
