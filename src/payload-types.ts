@@ -138,10 +138,12 @@ export interface Config {
   globals: {
     homepage: Homepage;
     navigation: Navigation;
+    footer: Footer;
   };
   globalsSelect: {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   user: Token | User;
@@ -797,6 +799,32 @@ export interface Link {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  generalInfo?:
+    | {
+        entryStatus: 'disabled' | 'live';
+        link?: Link;
+        id?: string | null;
+      }[]
+    | null;
+  socials?:
+    | {
+        entryStatus: 'disabled' | 'live';
+        link?: Link;
+        id?: string | null;
+      }[]
+    | null;
+  locationTitle?: string | null;
+  locationAddress?: string | null;
+  locationLink?: Link;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
@@ -850,6 +878,32 @@ export interface LinkSelect<T extends boolean = true> {
   page?: T;
   target?: T;
   label?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  generalInfo?:
+    | T
+    | {
+        entryStatus?: T;
+        link?: T | LinkSelect<T>;
+        id?: T;
+      };
+  socials?:
+    | T
+    | {
+        entryStatus?: T;
+        link?: T | LinkSelect<T>;
+        id?: T;
+      };
+  locationTitle?: T;
+  locationAddress?: T;
+  locationLink?: T | LinkSelect<T>;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
