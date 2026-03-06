@@ -786,11 +786,12 @@ export interface Navigation {
  * via the `definition` "Link".
  */
 export interface Link {
-  source?: ('categories' | 'custom' | 'mail' | 'products' | 'pages' | 'whatsapp') | null;
-  product?: (number | null) | Product;
+  source?: ('categories' | 'custom' | 'mail' | 'products' | 'pages') | null;
   category?: (number | null) | ProductsCategory;
   custom?: string | null;
   mail?: string | null;
+  product?: (number | null) | Product;
+  page?: (number | null) | StaticPage;
   target?: boolean | null;
   label?: string | null;
 }
@@ -842,10 +843,11 @@ export interface NavigationSelect<T extends boolean = true> {
  */
 export interface LinkSelect<T extends boolean = true> {
   source?: T;
-  product?: T;
   category?: T;
   custom?: T;
   mail?: T;
+  product?: T;
+  page?: T;
   target?: T;
   label?: T;
 }
