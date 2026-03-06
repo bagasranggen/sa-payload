@@ -2,12 +2,13 @@ import { NamedGroupField, Field } from 'payload';
 
 import { BaseLinkTarget } from '@/shared/BaseLinkTarget';
 
-export type BaseLinkProps = Pick<NamedGroupField, 'name'>;
+export type BaseLinkProps = Pick<NamedGroupField, 'name' | 'label'>;
 
 export const BaseLink = (props?: BaseLinkProps): Field => {
     return {
         type: 'group',
         name: props?.name ?? 'link',
+        label: props?.label,
         interfaceName: 'Link',
         fields: [
             {
