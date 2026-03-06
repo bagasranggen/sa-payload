@@ -12,8 +12,7 @@ import { Categories, Colors, Labels, Sizes, Tags } from '@/collections/taxonomie
 import { Products, ProductsCategories, StaticPages } from '@/collections/pages';
 import { Tokens, Users } from '@/collections/users';
 
-import { Homepage } from '@/globals/Homepage';
-import { Navigation } from '@/globals/Navigation';
+import { Footer, Homepage, Navigation } from '@/globals';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -26,7 +25,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    globals: [Homepage, Navigation],
+    globals: [Homepage, Navigation, Footer],
     collections: [
         Media,
         Categories,
