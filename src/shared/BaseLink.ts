@@ -1,4 +1,5 @@
 import { NamedGroupField, Field } from 'payload';
+
 import { BaseLinkTarget } from '@/shared/BaseLinkTarget';
 
 export type BaseLinkProps = Pick<NamedGroupField, 'name'>;
@@ -26,18 +27,8 @@ export const BaseLink = (props?: BaseLinkProps): Field => {
                             { value: 'mail', label: 'Mail' },
                             { value: 'products', label: 'Products' },
                             { value: 'pages', label: 'Pages' },
-                            { value: 'whatsapp', label: 'Whatsapp' },
+                            // { value: 'whatsapp', label: 'Whatsapp' },
                         ],
-                    },
-                    {
-                        type: 'relationship',
-                        name: 'product',
-                        label: false,
-                        relationTo: 'products',
-                        required: true,
-                        admin: {
-                            condition: (data, siblingData) => siblingData?.source === 'products',
-                        },
                     },
                     {
                         type: 'relationship',
@@ -67,6 +58,26 @@ export const BaseLink = (props?: BaseLinkProps): Field => {
                         admin: {
                             condition: (data, siblingData) => siblingData?.source === 'mail',
                             placeholder: 'Type your email address (ex. example@example.com)',
+                        },
+                    },
+                    {
+                        type: 'relationship',
+                        name: 'product',
+                        label: false,
+                        relationTo: 'products',
+                        required: true,
+                        admin: {
+                            condition: (data, siblingData) => siblingData?.source === 'products',
+                        },
+                    },
+                    {
+                        type: 'relationship',
+                        name: 'page',
+                        label: false,
+                        relationTo: 'staticPages',
+                        required: true,
+                        admin: {
+                            condition: (data, siblingData) => siblingData?.source === 'pages',
                         },
                     },
                     BaseLinkTarget({
