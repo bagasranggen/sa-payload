@@ -103,9 +103,8 @@ export interface Config {
     labels: Label;
     sizes: Size;
     tags: Tag;
-    productsCategories: ProductsCategory;
     products: Product;
-    staticPages: StaticPage;
+    pages: Page;
     tokens: Token;
     users: User;
     'payload-kv': PayloadKv;
@@ -121,9 +120,8 @@ export interface Config {
     labels: LabelsSelect<false> | LabelsSelect<true>;
     sizes: SizesSelect<false> | SizesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
-    productsCategories: ProductsCategoriesSelect<false> | ProductsCategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
-    staticPages: StaticPagesSelect<false> | StaticPagesSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     tokens: TokensSelect<false> | TokensSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -276,22 +274,6 @@ export interface Tag {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "productsCategories".
- */
-export interface ProductsCategory {
-  id: number;
-  typeHandle: string;
-  slug: string;
-  entryStatus: 'disabled' | 'live';
-  title: string;
-  url?: string | null;
-  uri?: string | null;
-  category: number | Category;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
 export interface Product {
@@ -320,16 +302,17 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "staticPages".
+ * via the `definition` "pages".
  */
-export interface StaticPage {
+export interface Page {
   id: number;
-  typeHandle: string;
+  typeHandle: 'sectionStaticPages' | 'sectionProductsListing' | 'sectionProductsCategories';
   slug: string;
   entryStatus: 'disabled' | 'live';
   title: string;
   url?: string | null;
   uri?: string | null;
+  productCategory?: (number | null) | Category;
   updatedAt: string;
   createdAt: string;
 }
@@ -421,16 +404,12 @@ export interface PayloadLockedDocument {
         value: number | Tag;
       } | null)
     | ({
-        relationTo: 'productsCategories';
-        value: number | ProductsCategory;
-      } | null)
-    | ({
         relationTo: 'products';
         value: number | Product;
       } | null)
     | ({
-        relationTo: 'staticPages';
-        value: number | StaticPage;
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'tokens';
@@ -574,21 +553,6 @@ export interface TagsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "productsCategories_select".
- */
-export interface ProductsCategoriesSelect<T extends boolean = true> {
-  typeHandle?: T;
-  slug?: T;
-  entryStatus?: T;
-  title?: T;
-  url?: T;
-  uri?: T;
-  category?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
@@ -641,15 +605,16 @@ export interface PricesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "staticPages_select".
+ * via the `definition` "pages_select".
  */
-export interface StaticPagesSelect<T extends boolean = true> {
+export interface PagesSelect<T extends boolean = true> {
   typeHandle?: T;
   slug?: T;
   entryStatus?: T;
   title?: T;
   url?: T;
   uri?: T;
+  productCategory?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -756,7 +721,6 @@ export interface Homepage {
     [k: string]: unknown;
   } | null;
   highlights?: (number | Product)[] | null;
-  collections?: (number | ProductsCategory)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -788,12 +752,11 @@ export interface Navigation {
  * via the `definition` "Link".
  */
 export interface Link {
-  source?: ('categories' | 'custom' | 'mail' | 'products' | 'pages') | null;
-  category?: (number | null) | ProductsCategory;
+  source?: ('custom' | 'mail' | 'products' | 'pages') | null;
   custom?: string | null;
   mail?: string | null;
   product?: (number | null) | Product;
-  page?: (number | null) | StaticPage;
+  page?: (number | null) | Page;
   target?: boolean | null;
   label?: string | null;
 }
@@ -837,7 +800,6 @@ export interface HomepageSelect<T extends boolean = true> {
   bannerTitle?: T;
   bannerSubTitle?: T;
   highlights?: T;
-  collections?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -871,7 +833,6 @@ export interface NavigationSelect<T extends boolean = true> {
  */
 export interface LinkSelect<T extends boolean = true> {
   source?: T;
-  category?: T;
   custom?: T;
   mail?: T;
   product?: T;
