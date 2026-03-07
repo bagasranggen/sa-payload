@@ -9,7 +9,7 @@ export type AdditionalPathArg = Pick<FieldHookArgs<TypeWithID, any, any>, 'sibli
 
 export type GetUrlPathProps = {
     withBaseUri?: boolean;
-    withSlug?: boolean;
+    withSlug?: (siblingData: AdditionalPathArg['siblingData']) => boolean;
     additionalPath?: (props: AdditionalPathArg) => Promise<string[]>;
 } & AdditionalPathArg;
 
@@ -20,7 +20,7 @@ export const getUrlPath = async ({
     req,
     additionalPath,
     withBaseUri = false,
-    withSlug = true,
+    withSlug = () => true,
 }: GetUrlPathProps): Promise<string | undefined> => {
     let data = undefined;
 
@@ -35,7 +35,7 @@ export const getUrlPath = async ({
     let url: ArrayStringTypes = [];
     if (BASE_URI && withBaseUri) url.push(BASE_URI);
     if (path) url.push(...path);
-    if (withSlug && slug) url.push(slug);
+    if (withSlug(siblingData) && slug) url.push(slug);
     url = joinArrayString(url, '/');
 
     if (url) data = url;

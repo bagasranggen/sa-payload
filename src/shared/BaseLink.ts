@@ -23,7 +23,7 @@ export const BaseLink = (props?: BaseLinkProps): Field => {
                             width: '25%',
                         },
                         options: [
-                            { value: 'categories', label: 'Categories' },
+                            // { value: 'categories', label: 'Categories' },
                             { value: 'custom', label: 'Custom' },
                             { value: 'mail', label: 'Mail' },
                             { value: 'products', label: 'Products' },
@@ -31,16 +31,16 @@ export const BaseLink = (props?: BaseLinkProps): Field => {
                             // { value: 'whatsapp', label: 'Whatsapp' },
                         ],
                     },
-                    {
-                        type: 'relationship',
-                        name: 'category',
-                        label: false,
-                        relationTo: 'productsCategories',
-                        required: true,
-                        admin: {
-                            condition: (data, siblingData) => siblingData?.source === 'categories',
-                        },
-                    },
+                    // {
+                    //     type: 'relationship',
+                    //     name: 'category',
+                    //     label: false,
+                    //     relationTo: 'productsCategories',
+                    //     required: true,
+                    //     admin: {
+                    //         condition: (data, siblingData) => siblingData?.source === 'categories',
+                    //     },
+                    // },
                     {
                         type: 'text',
                         name: 'custom',
@@ -71,11 +71,21 @@ export const BaseLink = (props?: BaseLinkProps): Field => {
                             condition: (data, siblingData) => siblingData?.source === 'products',
                         },
                     },
+                    // {
+                    //     type: 'relationship',
+                    //     name: 'page',
+                    //     label: false,
+                    //     relationTo: 'staticPages',
+                    //     required: true,
+                    //     admin: {
+                    //         condition: (data, siblingData) => siblingData?.source === 'pages',
+                    //     },
+                    // },
                     {
                         type: 'relationship',
                         name: 'page',
                         label: false,
-                        relationTo: 'staticPages',
+                        relationTo: 'pages',
                         required: true,
                         admin: {
                             condition: (data, siblingData) => siblingData?.source === 'pages',

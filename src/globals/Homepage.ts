@@ -10,7 +10,7 @@ export const Homepage: GlobalConfig = {
     fields: BaseEntry({
         typeHandle: 'sectionHomepage',
         url: {
-            withSlug: false,
+            withSlug: () => false,
             additionalPath: async () => {
                 return ['__home__'];
             },
@@ -42,17 +42,17 @@ export const Homepage: GlobalConfig = {
                     },
                 ],
             },
-            {
-                label: 'Collections',
-                fields: [
-                    {
-                        type: 'relationship',
-                        name: 'collections',
-                        relationTo: 'productsCategories',
-                        hasMany: true,
-                    },
-                ],
-            },
+            // {
+            //     label: 'Collections',
+            //     fields: [
+            //         {
+            //             type: 'relationship',
+            //             name: 'collections',
+            //             relationTo: 'productsCategories',
+            //             hasMany: true,
+            //         },
+            //     ],
+            // },
         ],
     }),
 };
