@@ -2,7 +2,7 @@ import { CollectionConfig } from 'payload';
 
 import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
 
-import { BaseEntry } from '@/shared';
+import { BaseEntry, ContentBlocks } from '@/shared';
 
 export const Pages: CollectionConfig = {
     slug: 'pages',
@@ -81,10 +81,10 @@ export const Pages: CollectionConfig = {
                 label: 'Content',
                 admin: {
                     condition: (data, siblingData) => {
-                        return siblingData?.typeHandle === PAGES_TYPE_HANDLES.PRODUCTS_LISTING;
+                        return siblingData?.typeHandle === PAGES_TYPE_HANDLES.STATIC_PAGES;
                     },
                 },
-                fields: [],
+                fields: [ContentBlocks()],
             },
         ],
     }),
