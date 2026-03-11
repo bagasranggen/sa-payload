@@ -2,6 +2,7 @@ import { Option } from 'payload';
 
 export const PAGES_TYPE_HANDLES = {
     HOMEPAGE: 'sectionHomepage',
+    ORDERS: 'sectionOrders',
     PRODUCTS: 'sectionProducts',
     PRODUCTS_LISTING: 'sectionProductsListing',
     PRODUCTS_CATEGORIES: 'sectionProductsCategories',
@@ -12,6 +13,10 @@ export const PAGES_TYPE_OPTIONS_HANDLES: Record<string, Exclude<Option, string>>
     [PAGES_TYPE_HANDLES.HOMEPAGE]: {
         value: PAGES_TYPE_HANDLES.HOMEPAGE,
         label: 'Homepage Index',
+    },
+    [PAGES_TYPE_HANDLES.ORDERS]: {
+        value: PAGES_TYPE_HANDLES.ORDERS,
+        label: 'Orders Index',
     },
     [PAGES_TYPE_HANDLES.PRODUCTS]: {
         value: PAGES_TYPE_HANDLES.PRODUCTS,

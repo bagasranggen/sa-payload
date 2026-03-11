@@ -306,7 +306,7 @@ export interface Product {
  */
 export interface Page {
   id: number;
-  typeHandle: 'sectionStaticPages' | 'sectionProductsListing' | 'sectionProductsCategories';
+  typeHandle: 'sectionOrders' | 'sectionStaticPages' | 'sectionProductsListing' | 'sectionProductsCategories';
   slug: string;
   entryStatus: 'disabled' | 'live';
   title: string;
