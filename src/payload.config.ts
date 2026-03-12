@@ -12,7 +12,7 @@ import { Categories, Colors, Labels, Sizes, Tags } from '@/collections/taxonomie
 import { Pages, Products } from '@/collections/pages';
 import { Tokens, Users } from '@/collections/users';
 
-import { Footer, Homepage, Navigation } from '@/globals';
+import { Footer, Global, Homepage, Navigation } from '@/globals';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -25,7 +25,7 @@ export default buildConfig({
             baseDir: path.resolve(dirname),
         },
     },
-    globals: [Homepage, Navigation, Footer],
+    globals: [Homepage, Navigation, Footer, Global],
     collections: [Media, Categories, Colors, Labels, Sizes, Tags, Products, Pages, Tokens, Users],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',

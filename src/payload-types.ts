@@ -137,11 +137,13 @@ export interface Config {
     homepage: Homepage;
     navigation: Navigation;
     footer: Footer;
+    global: Global;
   };
   globalsSelect: {
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    global: GlobalSelect<false> | GlobalSelect<true>;
   };
   locale: null;
   user: Token | User;
@@ -863,6 +865,18 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "global".
+ */
+export interface Global {
+  id: number;
+  locationTitle?: string | null;
+  locationAddress?: string | null;
+  locationLink?: Link;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
@@ -936,6 +950,18 @@ export interface FooterSelect<T extends boolean = true> {
         link?: T | LinkSelect<T>;
         id?: T;
       };
+  locationTitle?: T;
+  locationAddress?: T;
+  locationLink?: T | LinkSelect<T>;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "global_select".
+ */
+export interface GlobalSelect<T extends boolean = true> {
   locationTitle?: T;
   locationAddress?: T;
   locationLink?: T | LinkSelect<T>;
