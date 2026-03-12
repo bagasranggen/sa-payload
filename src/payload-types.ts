@@ -771,7 +771,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Homepage {
   id: number;
-  typeHandle: string;
+  typeHandle: 'sectionHomepage';
   slug: string;
   entryStatus: 'disabled' | 'live';
   title: string;
@@ -794,6 +794,8 @@ export interface Homepage {
     [k: string]: unknown;
   } | null;
   highlights?: (number | Product)[] | null;
+  collectionTitle?: string | null;
+  collections?: (number | Page)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -873,6 +875,8 @@ export interface HomepageSelect<T extends boolean = true> {
   bannerTitle?: T;
   bannerSubTitle?: T;
   highlights?: T;
+  collectionTitle?: T;
+  collections?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
