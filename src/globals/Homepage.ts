@@ -1,5 +1,7 @@
 import { GlobalConfig } from 'payload';
 
+import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
+
 import { BaseEntry } from '@/shared';
 
 export const Homepage: GlobalConfig = {
@@ -8,7 +10,7 @@ export const Homepage: GlobalConfig = {
         group: 'Pages',
     },
     fields: BaseEntry({
-        typeHandle: 'sectionHomepage',
+        typeHandle: [PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.HOMEPAGE]],
         url: {
             withSlug: () => false,
             additionalPath: async () => {
@@ -42,17 +44,22 @@ export const Homepage: GlobalConfig = {
                     },
                 ],
             },
-            // {
-            //     label: 'Collections',
-            //     fields: [
-            //         {
-            //             type: 'relationship',
-            //             name: 'collections',
-            //             relationTo: 'productsCategories',
-            //             hasMany: true,
-            //         },
-            //     ],
-            // },
+            {
+                label: 'Collections',
+                fields: [
+                    {
+                        type: 'text',
+                        name: 'collectionTitle',
+                        label: 'Title',
+                    },
+                    {
+                        type: 'relationship',
+                        name: 'collections',
+                        relationTo: 'pages',
+                        hasMany: true,
+                    },
+                ],
+            },
         ],
     }),
 };
