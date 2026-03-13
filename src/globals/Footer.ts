@@ -55,20 +55,6 @@ export const Footer: GlobalConfig = {
                         },
                     ],
                 },
-                {
-                    label: 'Location',
-                    fields: [
-                        {
-                            type: 'text',
-                            name: 'locationTitle',
-                        },
-                        {
-                            type: 'textarea',
-                            name: 'locationAddress',
-                        },
-                        BaseLink({ name: 'locationLink', label: 'Link' }),
-                    ],
-                },
             ],
         },
     ],

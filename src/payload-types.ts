@@ -857,9 +857,6 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  locationTitle?: string | null;
-  locationAddress?: string | null;
-  locationLink?: Link;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -950,9 +947,6 @@ export interface FooterSelect<T extends boolean = true> {
         link?: T | LinkSelect<T>;
         id?: T;
       };
-  locationTitle?: T;
-  locationAddress?: T;
-  locationLink?: T | LinkSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
