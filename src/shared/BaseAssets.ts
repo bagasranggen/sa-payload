@@ -10,14 +10,16 @@ export const BaseAssets = ({ slug, imageSizes }: BaseAssetsProps): CollectionCon
         },
         access: {
             read: (arg) => {
-                const {
-                    req: { headers },
-                } = arg;
+                // const {
+                //     req: { headers },
+                // } = arg;
+                //
+                // const hostnames = [process.env.CMS_HOSTNAME].filter((item) => Boolean(item));
+                // const forwardedHostname = headers?.get('x-forwarded-host')?.split(':').shift();
+                //
+                // return hostnames.includes(forwardedHostname);
 
-                const hostnames = [process.env.CMS_HOSTNAME].filter((item) => Boolean(item));
-                const forwardedHostname = headers?.get('x-forwarded-host')?.split(':').shift();
-
-                return hostnames.includes(forwardedHostname);
+                return true;
             },
         },
         fields: [
