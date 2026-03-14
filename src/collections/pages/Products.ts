@@ -33,7 +33,13 @@ export const Products: CollectionConfig = {
         tabs: [
             {
                 label: 'Media',
-                fields: [],
+                fields: [
+                    {
+                        type: 'upload',
+                        name: 'media',
+                        relationTo: 'mediaProducts',
+                    },
+                ],
             },
             {
                 label: 'Summaries',

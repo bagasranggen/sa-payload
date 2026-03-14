@@ -7,7 +7,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 
-import { Media } from '@/collections/assets';
+import { Media, MediaProducts } from '@/collections/assets';
 import { Categories, Colors, Labels, Sizes, Tags } from '@/collections/taxonomies';
 import { Pages, Products } from '@/collections/pages';
 import { Tokens, Users } from '@/collections/users';
@@ -26,7 +26,7 @@ export default buildConfig({
         },
     },
     globals: [Homepage, Navigation, Footer, Global],
-    collections: [Media, Categories, Colors, Labels, Sizes, Tags, Products, Pages, Tokens, Users],
+    collections: [Media, MediaProducts, Categories, Colors, Labels, Sizes, Tags, Products, Pages, Tokens, Users],
     editor: lexicalEditor(),
     secret: process.env.PAYLOAD_SECRET || '',
     typescript: {
@@ -43,6 +43,10 @@ export default buildConfig({
             collections: {
                 media: {
                     prefix: 'media',
+                },
+                mediaProducts: {
+                    prefix: 'mediaProducts',
+                    disablePayloadAccessControl: true,
                 },
             },
             bucket: process.env.S3_BUCKET || '',
