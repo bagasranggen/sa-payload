@@ -7,6 +7,8 @@ import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 
+import { BaseAssetsS3Collection } from '@/shared';
+
 import { Media, MediaProducts } from '@/collections/assets';
 import { Categories, Colors, Labels, Sizes, Tags } from '@/collections/taxonomies';
 import { Pages, Products } from '@/collections/pages';
@@ -41,13 +43,8 @@ export default buildConfig({
     plugins: [
         s3Storage({
             collections: {
-                media: {
-                    prefix: 'media',
-                },
-                mediaProducts: {
-                    prefix: 'mediaProducts',
-                    disablePayloadAccessControl: true,
-                },
+                ...BaseAssetsS3Collection({ prefix: 'media' }),
+                ...BaseAssetsS3Collection({ prefix: 'mediaProducts' }),
             },
             bucket: process.env.S3_BUCKET || '',
             config: {

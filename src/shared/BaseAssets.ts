@@ -1,5 +1,7 @@
 import { CollectionConfig, UploadConfig } from 'payload';
 
+import { BaseAssetsAccess } from '@/shared/BaseAssetsAccess';
+
 export type BaseAssetsProps = {} & Pick<CollectionConfig, 'slug'> & Pick<UploadConfig, 'imageSizes'>;
 
 export const BaseAssets = ({ slug, imageSizes }: BaseAssetsProps): CollectionConfig => {
@@ -8,20 +10,7 @@ export const BaseAssets = ({ slug, imageSizes }: BaseAssetsProps): CollectionCon
         admin: {
             group: 'Assets',
         },
-        access: {
-            read: (arg) => {
-                // const {
-                //     req: { headers },
-                // } = arg;
-                //
-                // const hostnames = [process.env.CMS_HOSTNAME].filter((item) => Boolean(item));
-                // const forwardedHostname = headers?.get('x-forwarded-host')?.split(':').shift();
-                //
-                // return hostnames.includes(forwardedHostname);
-
-                return true;
-            },
-        },
+        access: BaseAssetsAccess(),
         fields: [
             {
                 name: 'alt',
@@ -30,8 +19,7 @@ export const BaseAssets = ({ slug, imageSizes }: BaseAssetsProps): CollectionCon
             },
         ],
         upload: {
-            // staticDir: 'media',
-            // skipSafeFetch: [{ hostname: process.env.CMS_HOSTNAME || '' }],
+            skipSafeFetch: [{ hostname: process.env.CMS_HOSTNAME || '' }],
             disableLocalStorage: true,
             imageSizes,
         },

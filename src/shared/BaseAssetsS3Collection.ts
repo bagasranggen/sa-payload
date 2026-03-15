@@ -15,10 +15,10 @@ export const BaseAssetsS3Collection = ({ prefix }: BaseAssetsS3CollectionProps):
     return {
         [prefix]: {
             prefix,
-            disablePayloadAccessControl: true,
-            generateFileURL: (args: GenerateFileUrlArg) => {
-                return `${process.env.S3_MEDIA_URI}/${args.prefix}/${args.filename}`;
-            },
+            // disablePayloadAccessControl: true,
+            // generateFileURL: (args: GenerateFileUrlArg) => {
+            //     return `${process.env.S3_MEDIA_URI}/${args.prefix}/${args.filename}`;
+            // },
         },
     };
 };
