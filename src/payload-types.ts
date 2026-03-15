@@ -358,7 +358,7 @@ export interface Product {
   title: string;
   url?: string | null;
   uri?: string | null;
-  media?: (number | null) | MediaProduct;
+  media: (number | MediaProduct)[];
   summaries?: Summaries;
   bookedDates?:
     | {

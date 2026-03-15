@@ -38,6 +38,8 @@ export const Products: CollectionConfig = {
                         type: 'upload',
                         name: 'media',
                         relationTo: 'mediaProducts',
+                        hasMany: true,
+                        required: true,
                     },
                 ],
             },
