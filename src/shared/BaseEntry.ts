@@ -5,12 +5,12 @@ import { BaseEntryGeneral, BaseEntryGeneralProps } from '@/shared/BaseEntryGener
 
 export type BaseEntryProps = {
     tabs?: Tab[];
-    url?: BaseEntryGeneralProps;
-} & Pick<BaseEntrySidebarProps, 'typeHandle'>;
+    url?: Omit<BaseEntryGeneralProps, 'fields'>;
+} & (Pick<BaseEntrySidebarProps, 'typeHandle'> & Pick<BaseEntryGeneralProps, 'fields'>);
 
-export const BaseEntry = ({ typeHandle, tabs: tabsProps, url = {} }: BaseEntryProps): Field[] => {
+export const BaseEntry = ({ typeHandle, tabs: tabsProps, url = {}, fields = [] }: BaseEntryProps): Field[] => {
     const tabs: Tab[] = [];
-    tabs.push(BaseEntryGeneral(url));
+    tabs.push(BaseEntryGeneral({ ...url, fields }));
     if (tabsProps && tabsProps.length > 0) tabs.push(...tabsProps);
 
     return [

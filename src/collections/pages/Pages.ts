@@ -6,10 +6,10 @@ import { BaseEntry, ContentBlocks } from '@/shared';
 
 export const Pages: CollectionConfig = {
     slug: 'pages',
-
     admin: {
         group: 'Pages',
         useAsTitle: 'title',
+        groupBy: true,
     },
     fields: BaseEntry({
         typeHandle: [
@@ -18,7 +18,6 @@ export const Pages: CollectionConfig = {
             PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS_LISTING],
             PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS_CATEGORIES],
         ],
-
         url: {
             withSlug: (siblingData) => {
                 const typeHandle = siblingData?.typeHandle;
@@ -55,6 +54,13 @@ export const Pages: CollectionConfig = {
                 return path;
             },
         },
+        fields: [
+            {
+                type: 'upload',
+                name: 'image',
+                relationTo: 'media',
+            },
+        ],
         tabs: [
             {
                 label: 'Content',
@@ -64,6 +70,17 @@ export const Pages: CollectionConfig = {
                     },
                 },
                 fields: [
+                    {
+                        type: 'upload',
+                        name: 'productMedia',
+                        relationTo: 'media',
+                        required: true,
+                        admin: {
+                            condition: (data, siblingData) => {
+                                return siblingData?.typeHandle === PAGES_TYPE_HANDLES.PRODUCTS_CATEGORIES;
+                            },
+                        },
+                    },
                     {
                         type: 'relationship',
                         name: 'productCategory',

@@ -4,9 +4,15 @@ import { getUrlPath, GetUrlPathProps } from '@/libs/utils';
 
 export type BaseEntryGeneralProps = {
     enabled?: boolean;
+    fields?: Field[];
 } & Pick<GetUrlPathProps, 'additionalPath' | 'withSlug'>;
 
-export const BaseEntryGeneral = ({ enabled = true, additionalPath, withSlug }: BaseEntryGeneralProps): Tab => {
+export const BaseEntryGeneral = ({
+    enabled = true,
+    fields: fieldsProps,
+    additionalPath,
+    withSlug,
+}: BaseEntryGeneralProps): Tab => {
     const fields: Field[] = [];
 
     fields.push({
@@ -64,6 +70,8 @@ export const BaseEntryGeneral = ({ enabled = true, additionalPath, withSlug }: B
             ],
         });
     }
+
+    if (fieldsProps) fields.push(...fieldsProps);
 
     return {
         label: 'General',
