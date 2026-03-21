@@ -31,6 +31,12 @@ export const Homepage: GlobalConfig = {
                         name: 'bannerSubTitle',
                         label: 'Sub Title',
                     },
+                    {
+                        type: 'relationship',
+                        name: 'bannerMedia',
+                        relationTo: 'products',
+                        hasMany: true,
+                    },
                 ],
             },
             {

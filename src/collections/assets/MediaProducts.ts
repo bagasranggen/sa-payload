@@ -20,6 +20,11 @@ export const MediaProducts: CollectionConfig = BaseAssets({
             height: 800,
         },
         {
+            name: 'assets800x600',
+            width: 800,
+            height: 600,
+        },
+        {
             name: 'assets600x400',
             width: 600,
             height: 400,
