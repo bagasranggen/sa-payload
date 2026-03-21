@@ -41,6 +41,13 @@ export const Products: CollectionConfig = {
                         hasMany: true,
                         required: true,
                     },
+                    {
+                        type: 'upload',
+                        name: 'mediaSizeGuides',
+                        label: 'Size Guides',
+                        relationTo: 'mediaProducts',
+                        hasMany: true,
+                    },
                 ],
             },
             {
