@@ -254,6 +254,14 @@ export interface MediaProduct {
       filesize?: number | null;
       filename?: string | null;
     };
+    assets800x600?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
     assets600x400?: {
       url?: string | null;
       width?: number | null;
@@ -359,6 +367,21 @@ export interface Product {
   url?: string | null;
   uri?: string | null;
   media: (number | MediaProduct)[];
+  shortDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   summaries?: Summaries;
   bookedDates?:
     | {
@@ -662,6 +685,16 @@ export interface MediaProductsSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
+        assets800x600?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
         assets600x400?:
           | T
           | {
@@ -767,6 +800,7 @@ export interface ProductsSelect<T extends boolean = true> {
   url?: T;
   uri?: T;
   media?: T;
+  shortDescription?: T;
   summaries?: T | SummariesSelect<T>;
   bookedDates?:
     | T
@@ -956,6 +990,7 @@ export interface Homepage {
     };
     [k: string]: unknown;
   } | null;
+  bannerMedia?: (number | Product)[] | null;
   highlights?: (number | Product)[] | null;
   collectionTitle?: string | null;
   collections?: (number | Page)[] | null;
@@ -1046,6 +1081,7 @@ export interface HomepageSelect<T extends boolean = true> {
   uri?: T;
   bannerTitle?: T;
   bannerSubTitle?: T;
+  bannerMedia?: T;
   highlights?: T;
   collectionTitle?: T;
   collections?: T;
