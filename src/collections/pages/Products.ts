@@ -47,6 +47,10 @@ export const Products: CollectionConfig = {
                 label: 'Summaries',
                 fields: [
                     {
+                        type: 'richText',
+                        name: 'shortDescription',
+                    },
+                    {
                         type: 'array',
                         name: 'summaries',
                         interfaceName: 'Summaries',
