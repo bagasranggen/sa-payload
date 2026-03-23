@@ -264,7 +264,7 @@ export interface MediaProduct {
       filesize?: number | null;
       filename?: string | null;
     };
-    assets800x600?: {
+    assets800x800?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -712,7 +712,7 @@ export interface MediaProductsSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        assets800x600?:
+        assets800x800?:
           | T
           | {
               url?: T;
