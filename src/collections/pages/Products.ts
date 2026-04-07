@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload';
 
 import { BaseEntry } from '@/shared';
+import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
 
 export const Products: CollectionConfig = {
     slug: 'products',
@@ -9,7 +10,7 @@ export const Products: CollectionConfig = {
         useAsTitle: 'title',
     },
     fields: BaseEntry({
-        typeHandle: 'sectionProducts',
+        typeHandle: [PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS]],
         url: {
             additionalPath: async ({ siblingData, req: { payload } }) => {
                 const path: string[] = ['collection'];

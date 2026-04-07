@@ -370,7 +370,7 @@ export interface Tag {
  */
 export interface Product {
   id: number;
-  typeHandle: string;
+  typeHandle: 'sectionProducts';
   slug: string;
   entryStatus: 'disabled' | 'live';
   title: string;
