@@ -2,12 +2,20 @@ import { CollectionConfig } from 'payload';
 
 import { BaseEntry } from '@/shared';
 import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
+import { revalidatePage } from '@/libs/utils';
 
 export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
         group: 'Pages',
         useAsTitle: 'title',
+    },
+    hooks: {
+        afterChange: [
+            async ({ doc }) => {
+                if (doc?.uri) await revalidatePage({ items: [{ path: `/${doc.uri}` }] });
+            },
+        ],
     },
     fields: BaseEntry({
         typeHandle: [PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS]],
