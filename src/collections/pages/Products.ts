@@ -2,7 +2,7 @@ import { CollectionConfig } from 'payload';
 
 import { BaseEntry } from '@/shared';
 import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
-import { revalidatePage } from '@/libs/utils';
+import { revalidatePage, RevalidatePageProps } from '@/libs/utils';
 
 export const Products: CollectionConfig = {
     slug: 'products',
@@ -12,8 +12,43 @@ export const Products: CollectionConfig = {
     },
     hooks: {
         afterChange: [
-            async ({ doc }) => {
-                if (doc?.uri) await revalidatePage({ items: [{ path: `/${doc.uri}` }] });
+            async ({ doc, req: { payload } }) => {
+                const revalidatePaths: RevalidatePageProps['items'] = [];
+                if (doc?.uri) revalidatePaths.push({ path: `/${doc.uri}` });
+
+                // console.log({ doc });
+
+                try {
+                    console.log('run rels');
+
+                    const homepage = await payload.findGlobal({
+                        slug: 'homepage',
+                        // products_id: doc.id,
+                    });
+
+                    const highlightIDs: number[] = [];
+                    if (homepage && homepage?.highlights && homepage?.highlights.length > 0) {
+                        homepage.highlights.forEach((itm) => {
+                            // console.log({ itm });
+
+                            if (typeof itm !== 'number' && itm?.id) highlightIDs.push(itm.id);
+                        });
+                    }
+
+                    console.log({
+                        id: doc?.id,
+                        highlightIDs,
+                        cond: highlightIDs.includes(doc?.id),
+                        // category,
+                        // high: category?.highlights,
+                    });
+
+                    if (highlightIDs.includes(doc?.id)) revalidatePaths.push({ path: '/' });
+                } catch (e) {
+                    console.log(e);
+                }
+
+                await revalidatePage({ items: revalidatePaths });
             },
         ],
     },
