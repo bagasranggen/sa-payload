@@ -21,7 +21,9 @@ export const revalidatePage = async ({ items }: RevalidatePageProps) => {
     baseUrl = joinArrayString(baseUrl, '/');
 
     if (items && items.length > 0) {
-        for (const item of items) {
+        const paths = Array.from(new Map(items.map((item) => [item.path, item])).values());
+
+        for (const item of paths) {
             let params: ArrayStringTypes = [`secret=${process.env.REVALIDATION_SECRET_TOKEN}`];
             params.push(`path=${item.path}`);
             if (item?.hasDynamicSegment || item?.layout === 'layout') params.push(`type=${item.layout}`);
