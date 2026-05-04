@@ -1,13 +1,63 @@
 import { CollectionConfig } from 'payload';
 
 import { BaseEntry } from '@/shared';
+
 import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
+import { revalidatePage, RevalidatePageProps } from '@/libs/utils';
 
 export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
         group: 'Pages',
         useAsTitle: 'title',
+    },
+    hooks: {
+        afterChange: [
+            async ({ doc, req: { payload } }) => {
+                const revalidatePaths: RevalidatePageProps['items'] = [{ path: '/collection' }];
+                if (doc?.uri) revalidatePaths.push({ path: `/${doc.uri}` });
+
+                try {
+                    const homepage = await payload.findGlobal({
+                        slug: 'homepage',
+                    });
+
+                    // Check highlight
+                    const highlightIDs: number[] = [];
+                    if (homepage && homepage?.highlights && homepage?.highlights.length > 0) {
+                        homepage.highlights.forEach((itm) => {
+                            if (typeof itm !== 'number' && itm?.id) highlightIDs.push(itm.id);
+                        });
+                    }
+
+                    if (highlightIDs.includes(doc?.id)) revalidatePaths.push({ path: '/' });
+
+                    const pages = await payload.find({
+                        collection: 'pages',
+                        where: {
+                            typeHandle: {
+                                equals: 'sectionProductsCategories',
+                            },
+                        },
+                    });
+
+                    // Check collection pages to update
+                    if (pages && pages?.docs && pages.docs.length > 0) {
+                        pages.docs.forEach((item) => {
+                            const category = item?.productCategory;
+
+                            if (category && typeof category !== 'number' && category?.id === doc?.category) {
+                                revalidatePaths.push({ path: `/${item?.uri}` });
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+
+                await revalidatePage({ items: revalidatePaths });
+            },
+        ],
     },
     fields: BaseEntry({
         typeHandle: [PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS]],

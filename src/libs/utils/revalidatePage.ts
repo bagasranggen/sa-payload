@@ -1,13 +1,17 @@
 import { ArrayStringTypes } from '@/libs/types';
-import { joinArrayString } from './joinArrayString';
+import { joinArrayString } from '@/libs/utils/joinArrayString';
 
-export type RevalidatePageType = {
+export type RevalidatePageItemProps = {
     path: string;
     layout?: 'page' | 'layout';
     hasDynamicSegment?: boolean;
 };
 
-export const revalidatePage = async ({ path, layout = 'page', hasDynamicSegment }: RevalidatePageType) => {
+export type RevalidatePageProps = {
+    items: RevalidatePageItemProps[];
+};
+
+export const revalidatePage = async ({ items }: RevalidatePageProps) => {
     if (!process.env.BASE_URI) return;
     if (!process.env.REVALIDATION_SECRET_TOKEN) return;
 
@@ -16,16 +20,22 @@ export const revalidatePage = async ({ path, layout = 'page', hasDynamicSegment 
     baseUrl.push('revalidate');
     baseUrl = joinArrayString(baseUrl, '/');
 
-    let params: ArrayStringTypes = [`secret=${process.env.REVALIDATION_SECRET_TOKEN}`];
-    params.push(`path=${path}`);
-    if (hasDynamicSegment || layout === 'layout') params.push(`type=${layout}`);
-    params = joinArrayString(params, '&');
+    if (items && items.length > 0) {
+        const paths = Array.from(new Map(items.map((item) => [item.path, item])).values());
 
-    const url = joinArrayString([baseUrl, params], '?');
+        for (const item of paths) {
+            let params: ArrayStringTypes = [`secret=${process.env.REVALIDATION_SECRET_TOKEN}`];
+            params.push(`path=${item.path}`);
+            if (item?.hasDynamicSegment || item?.layout === 'layout') params.push(`type=${item.layout}`);
+            params = joinArrayString(params, '&');
 
-    try {
-        await fetch(url);
-    } catch (e) {
-        console.error(e);
+            const url = joinArrayString([baseUrl, params], '?');
+
+            try {
+                await fetch(url);
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
 };
