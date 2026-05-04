@@ -31,7 +31,6 @@ export const revalidatePage = async ({ items }: RevalidatePageProps) => {
 
             try {
                 await fetch(url);
-                console.log({ message: 'run', url });
             } catch (e) {
                 console.error(e);
             }
