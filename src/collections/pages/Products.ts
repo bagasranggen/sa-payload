@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload';
 
 import { BaseEntry } from '@/shared';
+
 import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
 import { revalidatePage, RevalidatePageProps } from '@/libs/utils';
 
@@ -29,6 +30,8 @@ export const Products: CollectionConfig = {
                         });
                     }
 
+                    if (highlightIDs.includes(doc?.id)) revalidatePaths.push({ path: '/' });
+
                     const pages = await payload.find({
                         collection: 'pages',
                         where: {
@@ -48,8 +51,6 @@ export const Products: CollectionConfig = {
                             }
                         });
                     }
-
-                    if (highlightIDs.includes(doc?.id)) revalidatePaths.push({ path: '/' });
                 } catch (e) {
                     console.log(e);
                 }
