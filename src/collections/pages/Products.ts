@@ -13,35 +13,41 @@ export const Products: CollectionConfig = {
     hooks: {
         afterChange: [
             async ({ doc, req: { payload } }) => {
-                const revalidatePaths: RevalidatePageProps['items'] = [];
+                const revalidatePaths: RevalidatePageProps['items'] = [{ path: '/collection' }];
                 if (doc?.uri) revalidatePaths.push({ path: `/${doc.uri}` });
 
-                // console.log({ doc });
-
                 try {
-                    console.log('run rels');
-
                     const homepage = await payload.findGlobal({
                         slug: 'homepage',
-                        // products_id: doc.id,
                     });
 
+                    // Check highlight
                     const highlightIDs: number[] = [];
                     if (homepage && homepage?.highlights && homepage?.highlights.length > 0) {
                         homepage.highlights.forEach((itm) => {
-                            // console.log({ itm });
-
                             if (typeof itm !== 'number' && itm?.id) highlightIDs.push(itm.id);
                         });
                     }
 
-                    console.log({
-                        id: doc?.id,
-                        highlightIDs,
-                        cond: highlightIDs.includes(doc?.id),
-                        // category,
-                        // high: category?.highlights,
+                    const pages = await payload.find({
+                        collection: 'pages',
+                        where: {
+                            typeHandle: {
+                                equals: 'sectionProductsCategories',
+                            },
+                        },
                     });
+
+                    // Check collection pages to update
+                    if (pages && pages?.docs && pages.docs.length > 0) {
+                        pages.docs.forEach((item) => {
+                            const category = item?.productCategory;
+
+                            if (category && typeof category !== 'number' && category?.id === doc?.category) {
+                                revalidatePaths.push({ path: `/${item?.uri}` });
+                            }
+                        });
+                    }
 
                     if (highlightIDs.includes(doc?.id)) revalidatePaths.push({ path: '/' });
                 } catch (e) {
