@@ -15,7 +15,6 @@ export const Pages: CollectionConfig = {
     hooks: {
         afterChange: [
             async ({ doc, req: { payload } }) => {
-                console.log({ doc });
                 const typeHandle = doc.typeHandle;
                 const revalidatePaths: RevalidatePageProps['items'] = [];
 
