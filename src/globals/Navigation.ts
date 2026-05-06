@@ -1,5 +1,7 @@
 import { GlobalConfig } from 'payload';
 
+import { revalidatePage } from '@/libs/utils';
+
 import { BaseEntryStatus } from '@/shared/BaseEntryStatus';
 import { BaseLink } from '@/shared/BaseLink';
 
@@ -8,6 +10,13 @@ export const Navigation: GlobalConfig = {
     label: 'Header',
     admin: {
         group: 'Navigation',
+    },
+    hooks: {
+        afterChange: [
+            async () => {
+                await revalidatePage({ items: [{ path: '/', layout: 'layout' }] });
+            },
+        ],
     },
     fields: [
         {
