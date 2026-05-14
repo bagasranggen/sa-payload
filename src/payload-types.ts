@@ -402,7 +402,7 @@ export interface Product {
       }[]
     | null;
   prices?: Prices;
-  category?: (number | null) | Category;
+  category?: (number | Category)[] | null;
   colors?: (number | Color)[] | null;
   sizes?: (number | Size)[] | null;
   tag?: (number | null) | Tag;

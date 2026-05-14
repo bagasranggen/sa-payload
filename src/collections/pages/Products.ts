@@ -182,6 +182,7 @@ export const Products: CollectionConfig = {
                                 type: 'relationship',
                                 name: 'category',
                                 relationTo: 'categories',
+                                hasMany: true,
                                 admin: {
                                     width: '50%',
                                 },
