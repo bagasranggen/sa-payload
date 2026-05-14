@@ -344,6 +344,7 @@ export interface Label {
  */
 export interface Size {
   id: number;
+  _order?: string | null;
   typeHandle: string;
   slug: string;
   entryStatus: 'disabled' | 'live';
@@ -796,6 +797,7 @@ export interface LabelsSelect<T extends boolean = true> {
  * via the `definition` "sizes_select".
  */
 export interface SizesSelect<T extends boolean = true> {
+  _order?: T;
   typeHandle?: T;
   slug?: T;
   entryStatus?: T;

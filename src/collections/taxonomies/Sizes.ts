@@ -8,6 +8,7 @@ export const Sizes: CollectionConfig = {
         group: 'Taxonomies',
         useAsTitle: 'title',
     },
+    orderable: true,
     fields: BaseEntry({
         typeHandle: 'sectionTaxonomiesSizes',
         url: { enabled: false },
