@@ -11,6 +11,7 @@ export const Sizes: CollectionConfig = {
         group: 'Taxonomies',
         useAsTitle: 'title',
     },
+    orderable: true,
     hooks: {
         afterChange: [
             async ({ req: { payload } }) => {
