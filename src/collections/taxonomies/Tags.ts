@@ -51,8 +51,12 @@ export const Tags: CollectionConfig = {
                                 revalidatePaths.push({ path: '/' });
                             }
 
-                            if (isRelated && category && typeof category !== 'number' && category?.id) {
-                                categoryIds.push(category.id);
+                            if (isRelated && category && category.length > 0) {
+                                category.forEach((item) => {
+                                    if (typeof item === 'number') return;
+
+                                    categoryIds.push(item.id);
+                                });
                             }
                         });
                     }
