@@ -65,18 +65,18 @@ export const Products: CollectionConfig = {
             additionalPath: async ({ siblingData, req: { payload } }) => {
                 const path: string[] = ['collection'];
 
-                if (siblingData?.category) {
-                    try {
-                        const category = await payload.findByID({
-                            collection: 'categories',
-                            id: siblingData.category,
-                        });
-
-                        if (category && category?.slug) path.push(category.slug);
-                    } catch (err) {
-                        // console.log(err);
-                    }
-                }
+                // if (siblingData?.category) {
+                //     try {
+                //         const category = await payload.findByID({
+                //             collection: 'categories',
+                //             id: siblingData.category,
+                //         });
+                //
+                //         if (category && category?.slug) path.push(category.slug);
+                //     } catch (err) {
+                //         // console.log(err);
+                //     }
+                // }
 
                 return path;
             },
@@ -232,6 +232,7 @@ export const Products: CollectionConfig = {
                                 type: 'relationship',
                                 name: 'category',
                                 relationTo: 'categories',
+                                hasMany: true,
                                 admin: {
                                     width: '50%',
                                 },
