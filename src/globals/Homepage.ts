@@ -1,6 +1,7 @@
 import { GlobalConfig } from 'payload';
 
 import { PAGES_TYPE_HANDLES, PAGES_TYPE_OPTIONS_HANDLES } from '@/libs/constants';
+import { revalidatePage } from '@/libs/utils';
 
 import { BaseEntry } from '@/shared';
 
@@ -8,6 +9,13 @@ export const Homepage: GlobalConfig = {
     slug: 'homepage',
     admin: {
         group: 'Pages',
+    },
+    hooks: {
+        afterChange: [
+            async () => {
+                await revalidatePage({ items: [{ path: '/' }] });
+            },
+        ],
     },
     fields: BaseEntry({
         typeHandle: [PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.HOMEPAGE]],
