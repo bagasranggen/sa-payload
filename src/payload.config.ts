@@ -59,7 +59,7 @@ export default buildConfig({
             },
         }),
         seoPlugin({
-            generateTitle: ({ doc }) => `${doc.title} - Sekarayu`,
+            generateTitle: ({ doc }) => `${doc.title} - Sekar Ayu`,
             generateDescription: ({ doc }) => doc.excerpt,
         }),
     ],
