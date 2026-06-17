@@ -6,6 +6,7 @@ import { buildConfig } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
+import { seoPlugin } from '@payloadcms/plugin-seo';
 
 import { BaseAssetsS3Collection } from '@/shared';
 
@@ -56,6 +57,10 @@ export default buildConfig({
                 region: process.env.S3_REGION,
                 endpoint: process.env.S3_ENDPOINT,
             },
+        }),
+        seoPlugin({
+            generateTitle: ({ doc }) => `${doc.title} - Sekarayu`,
+            generateDescription: ({ doc }) => doc.excerpt,
         }),
     ],
 });
