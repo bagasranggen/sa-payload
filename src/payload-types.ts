@@ -12,7 +12,7 @@
  */
 export type Summaries =
   | {
-      title?: string | null;
+      title?: (number | null) | Label;
       details?:
         | {
             label?: (number | null) | Label;
