@@ -120,7 +120,8 @@ export const Products: CollectionConfig = {
                         },
                         fields: [
                             {
-                                type: 'text',
+                                type: 'relationship',
+                                relationTo: 'labels',
                                 name: 'title',
                             },
                             {
