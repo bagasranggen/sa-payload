@@ -53,7 +53,6 @@ export const Pages: CollectionConfig = {
             },
         ],
     },
-
     fields: BaseEntry({
         typeHandle: [
             PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.ORDERS],
@@ -61,6 +60,7 @@ export const Pages: CollectionConfig = {
             PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS_LISTING],
             PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS_CATEGORIES],
         ],
+        seo: { mediaRelation: 'media' },
         url: {
             withSlug: (siblingData) => {
                 const typeHandle = siblingData?.typeHandle;
