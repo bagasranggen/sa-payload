@@ -1,0 +1,10 @@
+{
+    "name": "convert-assets",
+    "version": "1.0.0",
+    "scripts": {
+        "convert-assets": "node script.js"
+    },
+    "devDependencies": {
+        "sharp": "^0.35.2"
+    }
+}
