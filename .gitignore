@@ -50,3 +50,7 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Module
+/module/convert-assets/assets/raw/*
+/module/convert-assets/assets/webp
