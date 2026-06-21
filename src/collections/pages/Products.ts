@@ -61,6 +61,7 @@ export const Products: CollectionConfig = {
     },
     fields: BaseEntry({
         typeHandle: [PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.PRODUCTS]],
+        seo: { mediaRelation: 'mediaProducts' },
         url: {
             additionalPath: async ({ siblingData, req: { payload } }) => {
                 const path: string[] = ['collection'];

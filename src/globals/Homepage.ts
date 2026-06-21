@@ -19,6 +19,7 @@ export const Homepage: GlobalConfig = {
     },
     fields: BaseEntry({
         typeHandle: [PAGES_TYPE_OPTIONS_HANDLES[PAGES_TYPE_HANDLES.HOMEPAGE]],
+        seo: { mediaRelation: 'media' },
         url: {
             withSlug: () => false,
             additionalPath: async () => {

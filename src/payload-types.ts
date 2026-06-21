@@ -148,6 +148,9 @@ export interface Config {
     global: GlobalSelect<false> | GlobalSelect<true>;
   };
   locale: null;
+  widgets: {
+    collections: CollectionsWidget;
+  };
   user: Token | User;
   jobs: {
     tasks: unknown;
@@ -407,8 +410,21 @@ export interface Product {
   colors?: (number | Color)[] | null;
   sizes?: (number | Size)[] | null;
   tag?: (number | null) | Tag;
+  meta?: Meta;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Meta".
+ */
+export interface Meta {
+  title?: string | null;
+  description?: string | null;
+  /**
+   * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+   */
+  image?: (number | null) | Media;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -426,6 +442,7 @@ export interface Page {
   productMedia?: (number | null) | Media;
   productCategory?: (number | null) | Category;
   contentBlocks?: ContentBlocks;
+  meta?: Meta;
   updatedAt: string;
   createdAt: string;
 }
@@ -844,6 +861,7 @@ export interface ProductsSelect<T extends boolean = true> {
   colors?: T;
   sizes?: T;
   tag?: T;
+  meta?: T | MetaSelect<T>;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -874,6 +892,15 @@ export interface PricesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Meta_select".
+ */
+export interface MetaSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
@@ -887,6 +914,7 @@ export interface PagesSelect<T extends boolean = true> {
   productMedia?: T;
   productCategory?: T;
   contentBlocks?: T | ContentBlocksSelect<T>;
+  meta?: T | MetaSelect<T>;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1026,6 +1054,7 @@ export interface Homepage {
   highlights?: (number | Product)[] | null;
   collectionTitle?: string | null;
   collections?: (number | Page)[] | null;
+  meta?: Meta;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1117,6 +1146,7 @@ export interface HomepageSelect<T extends boolean = true> {
   highlights?: T;
   collectionTitle?: T;
   collections?: T;
+  meta?: T | MetaSelect<T>;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1191,6 +1221,16 @@ export interface GlobalSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
