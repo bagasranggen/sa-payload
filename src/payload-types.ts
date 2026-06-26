@@ -377,6 +377,7 @@ export interface Product {
   typeHandle: 'sectionProducts';
   slug: string;
   entryStatus: 'disabled' | 'live';
+  productId?: string | null;
   title: string;
   url?: string | null;
   uri?: string | null;
@@ -842,6 +843,7 @@ export interface ProductsSelect<T extends boolean = true> {
   typeHandle?: T;
   slug?: T;
   entryStatus?: T;
+  productId?: T;
   title?: T;
   url?: T;
   uri?: T;
