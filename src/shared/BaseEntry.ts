@@ -8,16 +8,24 @@ export type BaseEntryProps = {
     tabs?: Tab[];
     url?: Omit<BaseEntryGeneralProps, 'fields'>;
     seo?: boolean | Pick<BaseEntrySEOProps, 'mediaRelation'>;
+    sidebarFields?: BaseEntrySidebarProps['fields'];
 } & (Pick<BaseEntrySidebarProps, 'typeHandle'> & Pick<BaseEntryGeneralProps, 'fields'>);
 
-export const BaseEntry = ({ typeHandle, tabs: tabsProps, url = {}, fields = [], seo }: BaseEntryProps): Field[] => {
+export const BaseEntry = ({
+    typeHandle,
+    tabs: tabsProps,
+    url = {},
+    fields = [],
+    sidebarFields = [],
+    seo,
+}: BaseEntryProps): Field[] => {
     const tabs: Tab[] = [];
     tabs.push(BaseEntryGeneral({ ...url, fields }));
     if (tabsProps && tabsProps.length > 0) tabs.push(...tabsProps);
     if (seo) tabs.push(BaseEntrySEO(typeof seo === 'boolean' ? {} : seo));
 
     return [
-        BaseEntrySidebar({ typeHandle }),
+        BaseEntrySidebar({ typeHandle, fields: sidebarFields }),
         {
             type: 'tabs',
             tabs,

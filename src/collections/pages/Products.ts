@@ -82,6 +82,14 @@ export const Products: CollectionConfig = {
                 return path;
             },
         },
+        sidebarFields: [
+            {
+                type: 'text',
+                name: 'productId',
+                label: 'Product ID',
+                unique: true,
+            },
+        ],
         tabs: [
             {
                 label: 'Media',
